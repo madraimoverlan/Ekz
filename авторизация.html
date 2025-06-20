@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Аренда авто — Вход</title>
+    <style>
+        body {
+            background: #f4f6fa;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 420px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 32px 28px;
+        }
+
+        .tabs {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tab-titles {
+            display: flex;
+            margin-bottom: 0;
+        }
+
+        .tab-title {
+            display: inline-block;
+            padding: 12px 24px;
+            cursor: pointer;
+            background: #e3eaf4;
+            color: #284e91;
+            border: 1px solid #dbe2ef;
+            border-bottom: none;
+            border-radius: 12px 12px 0 0;
+            margin-right: 2px;
+            font-weight: 500;
+            transition: background 0.2s;
+            position: relative;
+            z-index: 1;
+        }
+
+        input[type="radio"] {
+            display: none;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 24px 0 0 0;
+        }
+
+        #tab-login:checked ~ .tab-titles label[for="tab-login"],
+        #tab-pass:checked ~ .tab-titles label[for="tab-pass"],
+        #tab-admin:checked ~ .tab-titles label[for="tab-admin"] {
+            background: #fff;
+            color: #222;
+            z-index: 2;
+        }
+
+        #tab-login:checked ~ #content-login,
+        #tab-pass:checked ~ #content-pass,
+        #tab-admin:checked ~ #content-admin {
+            display: block;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #284e91;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 15px;
+            color: #333;
+        }
+
+        input[type="text"], input[type="password"], select {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 18px;
+            border: 1px solid #dbe2ef;
+            border-radius: 8px;
+            font-size: 15px;
+            background: #f7fafc;
+            transition: border 0.2s;
+        }
+
+            input:focus, select:focus {
+                border-color: #284e91;
+                outline: none;
+            }
+
+        button {
+            background: #284e91;
+            color: #fff;
+            border: none;
+            padding: 12px 0;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+            transition: background 0.2s;
+        }
+
+            button:hover {
+                background: #1c3766;
+            }
+
+        .admin-panel {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 18px;
+        }
+
+        th, td {
+            padding: 10px 6px;
+            text-align: left;
+        }
+
+        th {
+            background: #e3eaf4;
+            color: #284e91;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: #f7fafc;
+        }
+
+        .actions button {
+            padding: 6px 10px;
+            font-size: 14px;
+            margin-right: 4px;
+            border-radius: 6px;
+            background: #e3eaf4;
+            color: #284e91;
+            width: auto;
+        }
+
+            .actions button:hover {
+                background: #c6d4ec;
+            }
+
+        .logout {
+            margin-top: 24px;
+            text-align: right;
+        }
+
+            .logout button {
+                background: #e57373;
+                color: #fff;
+                width: auto;
+                padding: 8px 18px;
+            }
+
+        .test-login {
+            margin-bottom: 18px;
+            text-align: right;
+        }
+
+            .test-login button {
+                background: #ffd54f;
+                color: #333;
+                width: auto;
+                padding: 8px 18px;
+            }
+
+        .message {
+            background: #e0f7e9;
+            color: #237a4b;
+            border: 1px solid #b2e6c6;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 18px;
+            font-size: 15px;
+            text-align: center;
+        }
+
+            .message.error {
+                background: #ffe0e0;
+                color: #a33;
+                border: 1px solid #e6b2b2;
+            }
+
+            .message.blocked {
+                background: #fff3cd;
+                color: #856404;
+                border: 1px solid #ffeeba;
+            }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 18px 8px;
+            }
+
+            th, td {
+                font-size: 13px;
+            }
+
+            .tab-title {
+                padding: 10px 8px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tabs" id="tabs">
+            <input type="radio" id="tab-login" name="tab-group" checked>
+            <input type="radio" id="tab-pass" name="tab-group">
+            <input type="radio" id="tab-admin" name="tab-group">
+            <div class="tab-titles">
+                <label for="tab-login" class="tab-title">Вход</label>
+                <label for="tab-pass" class="tab-title">Смена пароля</label>
+                <label for="tab-admin" class="tab-title">Управление пользователями</label>
+            </div>
+
+            <div class="tab-content" id="content-login">
+                <h2>Вход</h2>
+                <div id="login-message"></div>
+                <form id="login-form" autocomplete="off">
+                    <label for="login">Логин:</label>
+                    <input id="login" type="text" name="login" autocomplete="username" required>
+
+                    <label for="password">Пароль:</label>
+                    <input id="password" type="password" name="password" autocomplete="current-password" required>
+
+                    <button type="submit">Войти</button>
+                </form>
+                <div class="test-login">
+                    <button type="button" id="admin-login-btn">Войти как админ (тест)</button>
+                </div>
+            </div>
+
+            <div class="tab-content" id="content-pass">
+                <h2>Смена пароля</h2>
+                <div id="pass-message"></div>
+                <form id="pass-form" autocomplete="off">
+                    <label for="old-pass">Текущий пароль:</label>
+                    <input id="old-pass" type="password" name="old-pass" autocomplete="current-password" required>
+
+                    <label for="new-pass">Новый пароль:</label>
+                    <input id="new-pass" type="password" name="new-pass" autocomplete="new-password" required>
+
+                    <label for="confirm-pass">Подтверждение нового пароля:</label>
+                    <input id="confirm-pass" type="password" name="confirm-pass" autocomplete="new-password" required>
+
+                    <button type="submit">Обновить пароль</button>
+                </form>
+            </div>
+
+            <div class="tab-content" id="content-admin">
+                <div class="admin-panel">
+                    <h2>Пользователи системы</h2>
+                    <table>
+                        <tr>
+                            <th>Логин</th>
+                            <th>Роль</th>
+                            <th>Заблокирован</th>
+                            <th>Действия</th>
+                        </tr>
+                        <tr>
+                            <td>admin</td>
+                            <td>Администратор</td>
+                            <td id="blocked-admin">false</td>
+                            <td class="actions">
+                                <button type="button" class="toggle-block-btn" data-user="admin">Заблокировать/Разблокировать</button>
+                                <button>Удалить</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>user1</td>
+                            <td>Пользователь</td>
+                            <td id="blocked-user1">false</td>
+                            <td class="actions">
+                                <button type="button" class="toggle-block-btn" data-user="user1">Заблокировать/Разблокировать</button>
+                                <button>Удалить</button>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <form style="margin-top:18px;">
+                        <label for="new-user-login">Добавить нового пользователя</label>
+                        <input id="new-user-login" type="text" name="new-user-login" placeholder="Логин">
+
+                        <label for="new-user-role">Роль:</label>
+                        <select id="new-user-role" name="new-user-role">
+                            <option>Пользователь</option>
+                            <option>Администратор</option>
+                        </select>
+                        <button type="submit">Добавить пользователя</button>
+                    </form>
+                </div>
+                <div class="logout">
+                    <button type="button" id="logout-btn">Выйти из системы (тест)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Мок-данные пользователя с поддержкой блокировки и счёта неудачных попыток
+        let userData = {
+            admin: { password: 'admin', role: 'Администратор', blocked: false, attempts: 0 },
+            user1: { password: 'user1', role: 'Пользователь', blocked: false, attempts: 0 }
+        };
+
+        let currentUser = null;
+
+        function updateBlockedStatusUI() {
+            document.getElementById('blocked-admin').textContent = userData.admin.blocked ? 'true' : 'false';
+            document.getElementById('blocked-user1').textContent = userData.user1.blocked ? 'true' : 'false';
+        }
+        updateBlockedStatusUI();
+
+        // Вход
+        document.getElementById('login-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const login = document.getElementById('login').value.trim();
+            const pass = document.getElementById('password').value;
+            const msg = document.getElementById('login-message');
+            if (!userData[login]) {
+                msg.innerHTML = '<div class="message error">Пользователь не найден</div>';
+                return;
+            }
+            if (userData[login].blocked) {
+                msg.innerHTML = '<div class="message blocked">Пользователь заблокирован из-за 3 неудачных попыток входа</div>';
+                return;
+            }
+            if (userData[login].password === pass) {
+                currentUser = login;
+                userData[login].attempts = 0;
+                msg.innerHTML = '<div class="message">Вы успешно вошли!</div>';
+                updateBlockedStatusUI();
+            } else {
+                userData[login].attempts = (userData[login].attempts || 0) + 1;
+                if (userData[login].attempts >= 3) {
+                    userData[login].blocked = true;
+                    msg.innerHTML = '<div class="message blocked">Пользователь заблокирован из-за 3 неудачных попыток входа</div>';
+                    updateBlockedStatusUI();
+                } else {
+                    msg.innerHTML = '<div class="message error">Неверный пароль. Осталось попыток: ' + (3 - userData[login].attempts) + '</div>';
+                }
+            }
+        });
+
+        // Тестовая кнопка входа как админ
+        document.getElementById('admin-login-btn').addEventListener('click', function () {
+            if (userData.admin.blocked) {
+                document.getElementById('login-message').innerHTML = '<div class="message blocked">Пользователь заблокирован из-за 3 неудачных попыток входа</div>';
+                return;
+            }
+            currentUser = 'admin';
+            userData.admin.attempts = 0;
+            document.getElementById('login-message').innerHTML = '<div class="message">Вы успешно вошли!</div>';
+            updateBlockedStatusUI();
+        });
+
+        // Смена пароля
+        document.getElementById('pass-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const oldPass = document.getElementById('old-pass').value;
+            const newPass = document.getElementById('new-pass').value;
+            const confirmPass = document.getElementById('confirm-pass').value;
+            const msg = document.getElementById('pass-message');
+            if (!currentUser) {
+                msg.innerHTML = '<div class="message error">Сначала войдите в систему</div>';
+                return;
+            }
+            if (userData[currentUser].blocked) {
+                msg.innerHTML = '<div class="message blocked">Пользователь заблокирован</div>';
+                return;
+            }
+            if (newPass !== confirmPass) {
+                msg.innerHTML = '<div class="message error">Пароли не совпадают</div>';
+                return;
+            }
+            if (userData[currentUser].password !== oldPass) {
+                msg.innerHTML = '<div class="message error">Текущий пароль неверен</div>';
+                return;
+            }
+            userData[currentUser].password = newPass;
+            msg.innerHTML = '<div class="message">Пароль успешно изменён!</div>';
+            document.getElementById('pass-form').reset();
+        });
+
+        // Разблокировка/блокировка через панель администратора
+        document.querySelectorAll('.toggle-block-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const user = btn.getAttribute('data-user');
+                userData[user].blocked = !userData[user].blocked;
+                if (!userData[user].blocked) userData[user].attempts = 0;
+                updateBlockedStatusUI();
+            });
+        });
+
+        // Выход
+        document.getElementById('logout-btn').addEventListener('click', function () {
+            currentUser = null;
+            document.getElementById('tab-login').checked = true;
+            document.getElementById('login-message').innerHTML = '';
+            document.getElementById('pass-message').innerHTML = '';
+        });
+    </script>
+</body>
+</html>
+
